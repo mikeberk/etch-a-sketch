@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="page">
+        <div class="control">
+            <button>Reset</button>
+        </div>
+        <div class="main-container">
+        </div>
+    </div>
+
+    <script>
+        const mainContainer = document.querySelector('.main-container');
+        const button = document.querySelector('button');
+
+        function getInput() {
+            let gridSize =  prompt('What size grid would you like to use?');
+            return parseInt(gridSize);
+        }
+
+        function newGrid(getInput) {
+            if (getInput > 100) {
+                alert('Choose a number smaller than 100');
+                newGrid(16);
+            } else {
+                let gridTotal = getInput ** 2;
+                for (let i = 0; i < gridTotal; i++) {
+                    let cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.style.width = `${(1 / getInput) * 100}%`;
+                    cell.style.height = `${(1 / getInput) * 100}%`;
+                    mainContainer.appendChild(cell);
+                }
+                addCellListener();
+            }
+        }
+        
+
+        window.onload = () => {
+            for (let i = 0; i < 256; i++) {
+                let cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.style.width = "6.25%";
+                cell.style.height = "6.25%";
+                mainContainer.appendChild(cell);
+            }   
+            addCellListener();
+        }
+        
+
+
+
+        function addCellListener() {
+            let cells = document.querySelectorAll('.cell');
+            cells.forEach((cell) => {
+                cell.addEventListener('mouseenter', () => {
+                    cell.classList.add('cell-hover');
+                });
+            });
+            button.addEventListener('click', () => {
+                cells.forEach((cell) => {
+                    cell.classList.remove('cell-hover');
+                    mainContainer.removeChild(cell);
+                });
+                newGrid(getInput());
+                ddCellListener();
+            });
+        }
+    </script>
+</body>
+</html>
